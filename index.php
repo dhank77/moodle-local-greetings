@@ -42,9 +42,29 @@ echo local_greetings_get_greeting($USER);
 $messageform = new \local_greetings\form\message_form();
 $messageform->display();
 
+echo $OUTPUT->box_start('card-columns');
+$allmessage = $DB->get_records('local_greetings_messages');
+foreach ($allmessage as $m) {
+    echo html_writer::start_tag('div', ['class' => 'card']);
+    echo html_writer::start_tag('div', ['class' => 'card-body']);
+    echo html_writer::tag('p', $m->messages, ['class' => 'card-text']);
+    echo html_writer::start_tag('p', ['class' => 'card-text']);
+    echo html_writer::tag('small', $m->timecreated, ['class' => 'text-muted']);
+    echo html_writer::end_tag('p');
+    echo html_writer::end_tag('div');
+    echo html_writer::end_tag('div');
+}
+echo $OUTPUT->box_end();
+
 if ($data = $messageform->get_data()) {
     $message = $data->messages;
-    echo $OUTPUT->heading($message, 4);
+    if (!empty($message)) {
+        $record = new stdClass;
+        $record->messages = $message;
+        $record->timecreated = time();
+
+        $DB->insert_record('local_greetings_messages', $record);
+    }
 }
 
 echo $OUTPUT->footer();
