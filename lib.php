@@ -15,10 +15,6 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * The description should be first, with asterisks laid out exactly
- * like this example. If you want to refer to a another function,
- * use @see as below. If it's useful to link to Moodle
- * documentation on the web, you can use a @link below or also
  *
  * @package local_greetings
  * @copyright   2024 Dhank77 <dhank77@example.com>
@@ -42,10 +38,10 @@ function local_greetings_get_greeting($user): string {
 }
 
 /**
-* Insert a link to index.php on the site front page navigation menu.
-*
-* @param navigation_node $frontpage Node representing the front page in the navigation tree.
-*/
+ * Insert a link to index.php on the site front page navigation menu.
+ *
+ * @param navigation_node $frontpage Node representing the front page in the navigation tree.
+ */
 function local_greetings_extend_navigation_frontpage(navigation_node $frontpage) {
     $frontpage->add(
         get_string('pluginname', 'local_greetings'),
@@ -54,10 +50,10 @@ function local_greetings_extend_navigation_frontpage(navigation_node $frontpage)
 }
 
 /**
-* Add link to index.php into navigation block.
-*
-* @param global_navigation $root Node representing the global navigation tree.
-*/
+ * Add link to index.php into navigation block.
+ *
+ * @param global_navigation $root Node representing the global navigation tree.
+ */
 function local_greetings_extend_navigation(global_navigation $root) {
     $node = navigation_node::create(
         get_string('greetings', 'local_greetings'),
