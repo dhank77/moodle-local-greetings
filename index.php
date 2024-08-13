@@ -26,6 +26,9 @@ require_once('../../config.php');
 require_once($CFG->dirroot . "/local/greetings/lib.php");
 
 require_login();
+if (isguestuser()) {
+    throw new moodle_exception('noguest');
+}
 
 $context = context_system::instance();
 $PAGE->set_context($context);
@@ -43,12 +46,6 @@ $messageform = new \local_greetings\form\message_form();
 $messageform->display();
 
 echo $OUTPUT->box_start('card-columns');
-// OLD
-// $allmessage = $DB->get_records('local_greetings_messages');
-
-// TO-TRY
-// $allmessage = $DB->get_records('local_greetings_messages', ['userid' => $USER->id]);
-
 $userfield = \core_user\fields::for_name()->with_identity($context);
 $userfieldssql = $userfield->get_sql('u');
 
@@ -58,7 +55,7 @@ $allmessage = $DB->get_records_sql($sql);
 foreach ($allmessage as $m) {
     echo html_writer::start_tag('div', ['class' => 'card']);
     echo html_writer::start_tag('div', ['class' => 'card-body']);
-    echo html_writer::tag('p', $m->messages, ['class' => 'card-text']);
+    echo html_writer::tag('p', format_text($m->messages, FORMAT_PLAIN), ['class' => 'card-text']);
     echo html_writer::tag('p', get_string('postedby', 'local_greetings', $m->firstname), ['class' => 'card-text']);
     echo html_writer::start_tag('p', ['class' => 'card-text']);
     echo html_writer::tag('small', $m->timecreated, ['class' => 'text-muted']);
@@ -69,7 +66,8 @@ foreach ($allmessage as $m) {
 echo $OUTPUT->box_end();
 
 if ($data = $messageform->get_data()) {
-    $message = $data->messages;
+    $message = required_param('messages', PARAM_TEXT);
+
     if (!empty($message)) {
         $record = new stdClass;
         $record->messages = $message;
