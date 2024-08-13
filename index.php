@@ -42,30 +42,63 @@ echo $OUTPUT->header();
 
 echo local_greetings_get_greeting($USER);
 
+// Capabbilities!
+$allowpost = has_capability('local/greetings:postmessages', $context);
+$viewmessages = has_capability('local/greetings:viewmessages', $context);
+$deleteanypost = has_capability('local/greetings:deleteanymessage', $context);
+
 $messageform = new \local_greetings\form\message_form();
-$messageform->display();
-
-echo $OUTPUT->box_start('card-columns');
-$userfield = \core_user\fields::for_name()->with_identity($context);
-$userfieldssql = $userfield->get_sql('u');
-
-$sql = "SELECT m.id, m.messages, m.timecreated, m.userid {$userfieldssql->selects} FROM {local_greetings_messages} m LEFT JOIN {user} u ON m.userid = u.id ORDER BY m.timecreated DESC";
-
-$allmessage = $DB->get_records_sql($sql);
-foreach ($allmessage as $m) {
-    echo html_writer::start_tag('div', ['class' => 'card']);
-    echo html_writer::start_tag('div', ['class' => 'card-body']);
-    echo html_writer::tag('p', format_text($m->messages, FORMAT_PLAIN), ['class' => 'card-text']);
-    echo html_writer::tag('p', get_string('postedby', 'local_greetings', $m->firstname), ['class' => 'card-text']);
-    echo html_writer::start_tag('p', ['class' => 'card-text']);
-    echo html_writer::tag('small', $m->timecreated, ['class' => 'text-muted']);
-    echo html_writer::end_tag('p');
-    echo html_writer::end_tag('div');
-    echo html_writer::end_tag('div');
+if ($allowpost) {
+    $messageform->display();
 }
-echo $OUTPUT->box_end();
+
+$action = optional_param('action', '', PARAM_TEXT);
+if ($action == 'del') {
+    require_capability('local/greetings:deleteanymessage', $context);
+    if ($deleteanypost) {
+        $id = required_param('id', PARAM_TEXT);
+        $DB->delete_records('local_greetings_messages', ['id' => $id]);
+    }
+}
+
+if ($viewmessages) {
+    require_capability('local/greetings:viewmessages', $context);
+    echo $OUTPUT->box_start('card-columns');
+    $userfield = \core_user\fields::for_name()->with_identity($context);
+    $userfieldssql = $userfield->get_sql('u');
+    $sql = "SELECT m.id, m.messages, m.timecreated, m.userid {$userfieldssql->selects} FROM {local_greetings_messages} m LEFT JOIN {user} u ON m.userid = u.id ORDER BY m.timecreated DESC";
+    $allmessage = $DB->get_records_sql($sql);
+    foreach ($allmessage as $m) {
+        echo html_writer::start_tag('div', ['class' => 'card']);
+        echo html_writer::start_tag('div', ['class' => 'card-body']);
+        echo html_writer::tag('p', format_text($m->messages, FORMAT_PLAIN), ['class' => 'card-text']);
+        echo html_writer::tag('p', get_string('postedby', 'local_greetings', $m->firstname), ['class' => 'card-text']);
+        echo html_writer::start_tag('p', ['class' => 'card-text']);
+        echo html_writer::tag('small', $m->timecreated, ['class' => 'text-muted']);
+        echo html_writer::end_tag('p');
+        echo html_writer::end_tag('div');
+
+        if ($deleteanypost) {
+            echo html_writer::start_tag('div', ['class' => 'card-footer text-center']);
+            echo html_writer::link(
+                new moodle_url(
+                    '/local/greetings/index.php',
+                    ['action' => 'del', 'id' => $m->id]
+                ),
+                $OUTPUT->pix_icon('t/delete', '') . get_string('delete'),
+                ['class' => 'text text-danger']
+            );
+            echo html_writer::end_tag('div');
+        }
+
+        echo html_writer::end_tag('div');
+
+    }
+    echo $OUTPUT->box_end();
+}
 
 if ($data = $messageform->get_data()) {
+    require_capability('local/greetings:postmessages', $context);
     $message = required_param('messages', PARAM_TEXT);
 
     if (!empty($message)) {
@@ -75,7 +108,9 @@ if ($data = $messageform->get_data()) {
         $record->userid = $USER->id;
 
         $DB->insert_record('local_greetings_messages', $record);
+        redirect($PAGE->url);
     }
 }
+
 
 echo $OUTPUT->footer();
