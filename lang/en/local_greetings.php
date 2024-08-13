@@ -25,6 +25,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['cannoteditmessage'] = 'You cannot edit this message';
+$string['editmessage'] = 'Edit this message';
 $string['greetings'] = 'Greetings';
 $string['greetings:deleteanymessage'] = 'Delete a new message on the Greetings wall';
 $string['greetings:postmessages'] = 'Post a new message on the Greetings wall';
@@ -37,6 +39,7 @@ $string['greetinguserloggedin'] = 'Greetings, {$a}';
 $string['greetingusernz'] = 'Kia Ora, {$a}.';
 $string['messagecardbgcolor'] = 'Message card color';
 $string['messagecardbgcolordesc'] = 'Background color of the message card';
+$string['norecordfound'] = 'No record found!';
 $string['pluginname'] = 'Greetings';
 $string['postedby'] = 'Posted by {$a}';
 $string['your_messages'] = 'Your messages';

@@ -35,7 +35,6 @@ $capabilities = [
         ],
     ],
     'local/greetings:viewmessages' => [
-        'riskbitmask' => RISK_SPAM,
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => [
@@ -43,12 +42,18 @@ $capabilities = [
         ],
     ],
     'local/greetings:deleteanymessage' => [
-        'riskbitmask' => RISK_SPAM,
-        'captype' => 'delete',
+        'riskbitmask' => RISK_DATALOSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => [
+            'manager' => CAP_ALLOW,
+        ],
+    ],
+    'local/greetings:deleteownmessage' => [
+        'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => [
             'user' => CAP_ALLOW,
-            'manager' => CAP_ALLOW,
         ],
     ],
 ];

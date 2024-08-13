@@ -85,11 +85,19 @@ if ($viewmessages) {
             echo html_writer::start_tag('div', ['class' => 'card-footer text-center']);
             echo html_writer::link(
                 new moodle_url(
+                    '/local/greetings/edit.php',
+                    ['id' => $m->id, 'sesskey' => sesskey()]
+                ),
+                $OUTPUT->pix_icon('i/edit', ''),
+                ['role' => 'button']
+            );
+            echo html_writer::link(
+                new moodle_url(
                     '/local/greetings/index.php',
                     ['action' => 'del', 'id' => $m->id, 'sesskey' => sesskey()]
                 ),
-                $OUTPUT->pix_icon('t/delete', '') . get_string('delete'),
-                ['class' => 'text text-danger']
+                $OUTPUT->pix_icon('t/delete', ''),
+                ['class' => 'text text-danger', 'role' => 'button']
             );
             echo html_writer::end_tag('div');
         }
@@ -114,6 +122,5 @@ if ($data = $messageform->get_data()) {
         redirect($PAGE->url);
     }
 }
-
 
 echo $OUTPUT->footer();
