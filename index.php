@@ -66,12 +66,13 @@ if ($action == 'del') {
 if ($viewmessages) {
     require_capability('local/greetings:viewmessages', $context);
     echo $OUTPUT->box_start('card-columns');
+    $cardbackgroundcolor = get_config('local_greetings', 'messagecardbgcolor');
     $userfield = \core_user\fields::for_name()->with_identity($context);
     $userfieldssql = $userfield->get_sql('u');
     $sql = "SELECT m.id, m.messages, m.timecreated, m.userid {$userfieldssql->selects} FROM {local_greetings_messages} m LEFT JOIN {user} u ON m.userid = u.id ORDER BY m.timecreated DESC";
     $allmessage = $DB->get_records_sql($sql);
     foreach ($allmessage as $m) {
-        echo html_writer::start_tag('div', ['class' => 'card']);
+        echo html_writer::start_tag('div', ['class' => 'card', 'style' => "background: $cardbackgroundcolor"]);
         echo html_writer::start_tag('div', ['class' => 'card-body']);
         echo html_writer::tag('p', format_text($m->messages, FORMAT_PLAIN), ['class' => 'card-text']);
         echo html_writer::tag('p', get_string('postedby', 'local_greetings', $m->firstname), ['class' => 'card-text']);
