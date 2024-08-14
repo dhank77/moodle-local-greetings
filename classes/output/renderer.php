@@ -14,18 +14,26 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
+namespace local_greetings\output;
+
+use plugin_renderer_base;
 /**
- *
+ * class
  * @package local_greetings
  * @copyright   2024 Dhank77 <dhank77@example.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace local_greetings\output;
-
-use plugin_renderer_base;
-
 class renderer extends plugin_renderer_base {
+    /**
+     * render index page
+     */
+    public function render_index_page($page): string {
+        $data = $page->export_for_template($this);
+        return parent::render_from_template('local_greetings/index', $data);
+    }
+    /**
+     * render layout test page
+     */
     public function render_layout_test_page($page): string {
         $data = $page->export_for_template($this);
         return parent::render_from_template('local_greetings/layout-test', $data);

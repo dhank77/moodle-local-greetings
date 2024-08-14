@@ -14,13 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
-/**
- *
- * @package local_greetings
- * @copyright   2024 Dhank77 <dhank77@example.com>
- * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace local_greetings\output;
 
 use renderable;
@@ -28,10 +21,19 @@ use renderer_base;
 use templatable;
 use stdClass;
 
+/**
+ * Class layout test page
+ * @package local_greetings
+ * @copyright   2024 Dhank77 <dhank77@example.com>
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class layout_test_page implements renderable, templatable {
     /** @var string $sometext Some text to pass data to a template. */
     private $sometext = null;
 
+    /**
+     * Constructor
+     */
     public function __construct($sometext) {
         $this->sometext = $sometext;
     }
