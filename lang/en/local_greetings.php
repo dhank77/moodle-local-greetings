@@ -27,12 +27,13 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['cannoteditmessage'] = 'You cannot edit this message';
 $string['editmessage'] = 'Edit this message';
+$string['greetingloggedinuser'] = 'Greetings, {$a}';
 $string['greetings'] = 'Greetings';
+$string['greetings:deleteownmessage'] = 'Delete a new message on the Greetings wall';
 $string['greetings:deleteanymessage'] = 'Delete a new message on the Greetings wall';
 $string['greetings:postmessages'] = 'Post a new message on the Greetings wall';
 $string['greetings:viewmessages'] = 'View messages on the Greetings wall';
 $string['greetinguser'] = 'Greetings, user';
-$string['greetingloggedinuser'] = 'Greetings, {$a}';
 $string['greetinguserau'] = 'Hello, {$a}.';
 $string['greetinguseres'] = 'Hola, {$a}.';
 $string['greetinguserfj'] = 'Bula, {$a}.';

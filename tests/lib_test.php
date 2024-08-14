@@ -23,13 +23,17 @@
  */
 
 namespace local_greetings;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once($CFG->dirroot . '/local/greetings/lib.php');
 
+/**
+ * Library tests.
+ */
 class lib_test extends \advanced_testcase {
-     /**
+    /**
      * Testing the translation of greeting messages.
      *
      * @covers ::local_greetings_get_greeting
@@ -49,7 +53,7 @@ class lib_test extends \advanced_testcase {
         $this->assertSame(get_string($langstring, 'local_greetings', fullname($user)), local_greetings_get_greeting($user));
     }
 
-      /**
+    /**
      * Data provider for {@see test_local_greetings_get_greeting()}.
      *
      * @return array List of data sets - (string) data set name => (array) data
@@ -58,19 +62,19 @@ class lib_test extends \advanced_testcase {
         return [
             'No user' => [ // Not logged in.
                 'country' => null,
-                'langstring' => 'greetinguser'
+                'langstring' => 'greetinguser',
             ],
             'AU user' => [
                 'country' => 'AU',
-                'langstring' => 'greetinguserau'
+                'langstring' => 'greetinguserau',
             ],
             'ES user' => [
                 'country' => 'ES',
-                'langstring' => 'greetinguseres'
+                'langstring' => 'greetinguseres',
             ],
-            'Nz user' => [ // Logged in user, but no local greeting.
+            'Nz user' => [
                 'country' => 'nz',
-                'langstring' => 'greetingusernz'
+                'langstring' => 'greetingusernz',
             ],
         ];
     }
