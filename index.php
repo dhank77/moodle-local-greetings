@@ -41,6 +41,8 @@ $PAGE->set_pagelayout('standard');
 $output = $PAGE->get_renderer('local_greetings');
 
 echo $output->header();
+echo $output->render_from_template('local_greetings/navmenu', []);
+
 
 echo local_greetings_get_greeting($USER);
 

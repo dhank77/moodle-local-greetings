@@ -25,6 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['allmessages'] = 'Greetings - All messages';
 $string['cannoteditmessage'] = 'You cannot edit this message';
 $string['editmessage'] = 'Edit this message';
 $string['greetingloggedinuser'] = 'Greetings, {$a}';
