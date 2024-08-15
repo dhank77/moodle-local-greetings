@@ -56,6 +56,8 @@ if ($allowpost) {
     $messageform->display();
 }
 
+$PAGE->requires->js_call_amd('local_greetings/form-handler', 'init');
+
 if ($viewmessages) {
     require_capability('local/greetings:viewmessages', $context);
     $cardbackgroundcolor = get_config('local_greetings', 'messagecardbgcolor');
@@ -78,19 +80,19 @@ if ($action == 'del') {
     }
 }
 
-if ($data = $messageform->get_data()) {
-    require_capability('local/greetings:postmessages', $context);
-    $message = required_param('messages', PARAM_TEXT);
+// if ($data = $messageform->get_data()) {
+//     require_capability('local/greetings:postmessages', $context);
+//     $message = required_param('messages', PARAM_TEXT);
 
-    if (!empty($message)) {
-        $record = new stdClass;
-        $record->messages = $message;
-        $record->timecreated = time();
-        $record->userid = $USER->id;
+//     if (!empty($message)) {
+//         $record = new stdClass;
+//         $record->messages = $message;
+//         $record->timecreated = time();
+//         $record->userid = $USER->id;
 
-        $DB->insert_record('local_greetings_messages', $record);
-        redirect($PAGE->url);
-    }
-}
+//         $DB->insert_record('local_greetings_messages', $record);
+//         redirect($PAGE->url);
+//     }
+// }
 
 echo $output->footer();
